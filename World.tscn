@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="TileSet" id=1]
+
+[node name="World" type="TileMap"]
+mode = 1
+tile_set = SubResource( 1 )
+cell_size = Vector2( 128, 64 )
+format = 1
