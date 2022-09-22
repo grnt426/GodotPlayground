@@ -5,7 +5,6 @@ var server_ip := "127.0.0.1"
 var port := 1909
 var map_scene
 const map := preload("res://Common/Maps/SimpleTiles.tscn")
-#const ClientGame := preload("res://Client/ClientGame.gd")
 var connected := false
 var character
 var target
@@ -22,6 +21,7 @@ func ConnectToServer():
 	network.connect("connection_succeeded", self, "_OnConnectionSucceeded")
 	
 func _OnConnectionFailed():
+	connected = false
 	print("failed to connect")
 	
 func _OnConnectionSucceeded():
@@ -56,23 +56,28 @@ func _unhandled_input(event: InputEvent) -> void:
 	target = event.global_position
 	
 	if event.button_index == BUTTON_LEFT:
-		print("Trying to select!")
-		
-		var space_state = get_world_2d().direct_space_state
-		var collision_objects = space_state.intersect_point(target, 1)
-		if(collision_objects):
-			selectedCharacter = collision_objects[0].collider
-			selectedCharacter.become_selected()
-		else:
-			if(selectedCharacter):
-				selectedCharacter.deselect()
-				selectedCharacter = false
-			print("Clicked on nothing!")
+		_handle_left_click(event)
 	elif event.button_index == BUTTON_RIGHT:
-		if selectedCharacter:
-			print("Got a mouse click, sending to server")
-			rpc_id(1, "moveCharacter", target)
-		else:
-			print("Nothing selected, moving nothing...")
-	#character.set_target(event.global_position)
+		_handle_right_click(event)
 	#line_2d.points = character.nav_agent.get_nav_path()
+
+func _handle_left_click(event) -> void:
+	print("Trying to select!")
+
+	var space_state = get_world_2d().direct_space_state
+	var collision_objects = space_state.intersect_point(target, 1)
+	if(collision_objects):
+		selectedCharacter = collision_objects[0].collider
+		selectedCharacter.become_selected()
+	else:
+		if(selectedCharacter):
+			selectedCharacter.deselect()
+			selectedCharacter = false
+		print("Clicked on nothing!")
+
+func _handle_right_click(event) -> void:
+	if selectedCharacter:
+		print("Got a mouse click, sending to server")
+		rpc_id(1, "moveCharacter", target)
+	else:
+		print("Nothing selected, moving nothing...")
