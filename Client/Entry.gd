@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 var network := NetworkedMultiplayerENet.new()
 var server_ip := "127.0.0.1"
@@ -9,6 +9,7 @@ const map := preload("res://Common/Maps/SimpleTiles.tscn")
 var connected := false
 var character
 var target
+var selectedCharacter
 
 func _ready():
 	ConnectToServer()
@@ -54,6 +55,18 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	print("Got a mouse click, sending to server")
 	target = event.global_position
-	rpc_id(1, "moveCharacter", target)
+	
+	var space_state = get_world_2d().direct_space_state
+	var collision_objects = space_state.intersect_point(target, 1)
+	if(collision_objects):
+		selectedCharacter = collision_objects[0].collider
+		selectedCharacter.become_selected()
+	else:
+		if(selectedCharacter):
+			selectedCharacter.deselect()
+			selectedCharacter = false
+		print("Clicked on nothing!")
+		
+	#rpc_id(1, "moveCharacter", target)
 	#character.set_target(event.global_position)
 	#line_2d.points = character.nav_agent.get_nav_path()

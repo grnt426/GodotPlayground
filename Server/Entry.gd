@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 var network := NetworkedMultiplayerENet.new()
 var port := 1909

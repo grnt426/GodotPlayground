@@ -1,9 +1,10 @@
 extends KinematicBody2D
 
 onready var nav_agent := $NavigationAgent2D
+onready var ring := self.get_node("SelectionRing")
 
 var speed := 400
-var did_arrive = false
+var did_arrive = true
 
 func _ready() -> void:
 	set_process(false)
@@ -17,6 +18,14 @@ func _process(delta:float) -> void:
 		velocity = move_and_slide(velocity)
 	elif not did_arrive:
 		did_arrive = true
+
+func become_selected() -> void:
+	ring.playing = true
+	ring.visible = true
+	
+func deselect() -> void:
+	ring.playing = false
+	ring.visible = false
 
 func _arrived_at_location() -> bool:
 	return nav_agent.is_navigation_finished()
