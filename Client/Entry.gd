@@ -49,24 +49,30 @@ func _physics_process(_dt: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton:
 		return
-	
-	if event.button_index != BUTTON_LEFT or not event.pressed:
+		
+	if not event.pressed:
 		return
-	
-	print("Got a mouse click, sending to server")
+		
 	target = event.global_position
 	
-	var space_state = get_world_2d().direct_space_state
-	var collision_objects = space_state.intersect_point(target, 1)
-	if(collision_objects):
-		selectedCharacter = collision_objects[0].collider
-		selectedCharacter.become_selected()
-	else:
-		if(selectedCharacter):
-			selectedCharacter.deselect()
-			selectedCharacter = false
-		print("Clicked on nothing!")
+	if event.button_index == BUTTON_LEFT:
+		print("Trying to select!")
 		
-	#rpc_id(1, "moveCharacter", target)
+		var space_state = get_world_2d().direct_space_state
+		var collision_objects = space_state.intersect_point(target, 1)
+		if(collision_objects):
+			selectedCharacter = collision_objects[0].collider
+			selectedCharacter.become_selected()
+		else:
+			if(selectedCharacter):
+				selectedCharacter.deselect()
+				selectedCharacter = false
+			print("Clicked on nothing!")
+	elif event.button_index == BUTTON_RIGHT:
+		if selectedCharacter:
+			print("Got a mouse click, sending to server")
+			rpc_id(1, "moveCharacter", target)
+		else:
+			print("Nothing selected, moving nothing...")
 	#character.set_target(event.global_position)
 	#line_2d.points = character.nav_agent.get_nav_path()

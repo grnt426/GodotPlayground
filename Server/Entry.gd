@@ -29,7 +29,7 @@ func _physics_process(_dt: float) -> void:
 		get_tree().get_root().add_child(map_scene)
 		character = map_scene.get_node("AlienChar")
 		map_scene.get_node("ClientType").text = "Server"
-		print("Character: " + character)
+		#print("Character: " + character)
 		#game.set_process(true)
 		#print(get_tree().get_root())
 	else:
