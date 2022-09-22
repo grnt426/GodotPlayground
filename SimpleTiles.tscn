@@ -1,13 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Tilesets/CustomTilesWithPerfectNav.tres" type="TileSet" id=1]
 [ext_resource path="res://AlienChar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://SimpleTiles.gd" type="Script" id=3]
-
-[sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 567, 39, 882, 70, 659, 142, 445, 189, 400, 141, 202, 222, 245, 55, 320, 140, 263, 262, 208, 369, 850, 538, 701, 587, 723, 433, 711, 291, 604, 346, 900, 272, 853, 386, 842, 154, 151, 503, 300, 566, 40, 590, 326, 309, 148, 154, 166, 96, 82, 89, 121, 395 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 6, 7, 8, 9 ), PoolIntArray( 10, 11, 12 ), PoolIntArray( 13, 10, 12 ), PoolIntArray( 13, 12, 14 ), PoolIntArray( 15, 16, 13, 17 ), PoolIntArray( 18, 17, 13, 14 ), PoolIntArray( 18, 14, 19, 20 ), PoolIntArray( 8, 4, 3, 21, 9 ), PoolIntArray( 5, 9, 22, 23 ), PoolIntArray( 24, 23, 22 ), PoolIntArray( 20, 24, 22, 25 ), PoolIntArray( 20, 25, 18 ) ]
-outlines = [ PoolVector2Array( 263, 262, 400, 141, 567, 39, 882, 70, 659, 142, 445, 189, 326, 309, 208, 369, 148, 154, 121, 395, 151, 503, 842, 154, 900, 272, 853, 386, 711, 291, 850, 538, 701, 587, 723, 433, 604, 346, 300, 566, 40, 590, 82, 89, 166, 96, 202, 222, 245, 55, 320, 140 ) ]
 
 [node name="WorldMap" type="Node2D"]
 script = ExtResource( 3 )
@@ -25,7 +20,3 @@ tile_data = PoolIntArray( 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65543, 0, 0, 65
 position = Vector2( 317, 272 )
 
 [node name="ComputedPath" type="Line2D" parent="."]
-
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="."]
-navpoly = SubResource( 1 )
-enabled = false

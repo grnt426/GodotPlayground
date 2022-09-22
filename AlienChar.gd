@@ -17,7 +17,6 @@ func _process(delta:float) -> void:
 		velocity = move_and_slide(velocity)
 	elif not did_arrive:
 		did_arrive = true
-		emit_signal("target_reached")
 
 func _arrived_at_location() -> bool:
 	return nav_agent.is_navigation_finished()
