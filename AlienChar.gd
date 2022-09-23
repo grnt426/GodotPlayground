@@ -16,6 +16,7 @@ func init(oId, pos, u=null):
 	if u == null:
 		u = self.get_instance_id()
 	uid = u
+	self.collision_mask = 2
 
 func _ready() -> void:
 	set_process(false)
