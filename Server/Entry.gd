@@ -1,19 +1,33 @@
 extends Node2D
 
+onready var UnitMoverManager = get_node("/root/UnitMoverManager")
 var network := NetworkedMultiplayerENet.new()
 var port := 1909
 var max_players := 100
 var connected_players := []
 var map_scene
-var character
 
 const map := preload("res://Common/Maps/SimpleTiles.tscn")
-#const ServerGame := preload("res://Server/ServerGame.gd")
 
 func _ready():
 	StartServer()
 	
 func StartServer():
+	self.set_physics_process(false)
+	
+	# Load map
+	map_scene = map.instance()
+	get_tree().get_root().add_child(map_scene)
+	map_scene.get_node("ClientType").text = "Server"
+	
+	# Spawn some units
+	var pos = Vector2(300, 300)
+	map_scene.add_child(UnitMoverManager.createUnit(2, pos))
+	pos = Vector2(330, 290)
+	map_scene.add_child(UnitMoverManager.createUnit(3, pos))
+	
+	
+	# Prepare to receive connections
 	network.create_server(port, max_players)
 	get_tree().set_network_peer(network)
 	print("Server has started")
@@ -22,29 +36,24 @@ func StartServer():
 	network.connect("peer_disconnected", self, "_Peer_Disconnected")
 	
 func _physics_process(_dt: float) -> void:
-	if(connected_players.size() >= 1 and !map_scene) :
-		map_scene = map.instance()
-		#var game = ServerGame.new()
-		#map_scene.set_script(game)
-		get_tree().get_root().add_child(map_scene)
-		character = map_scene.get_node("AlienChar")
-		map_scene.get_node("ClientType").text = "Server"
-		#print("Character: " + character)
-		#game.set_process(true)
-		#print(get_tree().get_root())
-	else:
-		if(character and !character.did_arrive):
-			rpc("character_update", character.position)
+	var updates = []
+	for u in UnitMoverManager.units.values():
+		if !u.did_arrive:
+			updates.append({"uid":u.uid, "pos":u.position})
+	if updates.size() > 0:
+		rpc("SyncMovedUnits", updates)
 	
 	
-func _Peer_Connected(player_id):
+func _Peer_Connected(player_id: int):
+	self.set_physics_process(true)
 	print("User " + str(player_id) + " connected")
 	connected_players.append(player_id)
+	rpc_id(player_id, "SyncAllUnitPositions", UnitMoverManager.serializeAll())
 	
 func _Peer_Disconnected(player_id):
 	print("User " + str(player_id) + " disconnected")
 
-remote func moveCharacter(position) -> void:
-	print("Received a mouse click command, moving character")
-	character.set_target(position)
-	return
+remote func moveCharacter(position: Vector2, uid: int) -> void:
+	print("Received a mouse click command, moving unit")
+	var unit = UnitMoverManager.getUnit(uid)
+	unit.set_target(position)

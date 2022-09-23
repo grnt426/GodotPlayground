@@ -1,10 +1,13 @@
 extends Node2D
 
-var network := NetworkedMultiplayerENet.new()
-var server_ip := "127.0.0.1"
-var port := 1909
-var map_scene
 const map := preload("res://Common/Maps/SimpleTiles.tscn")
+const server_ip := "127.0.0.1"
+const port := 1909
+
+onready var UnitMoverManager = get_node("/root/UnitMoverManager")
+
+var network := NetworkedMultiplayerENet.new()
+var map_scene
 var connected := false
 var character
 var target
@@ -31,17 +34,22 @@ func _OnConnectionSucceeded():
 	if(!map_scene):
 		print("Building map")
 		map_scene = map.instance()
-		#var game = ClientGame.new()
-		#map_scene.set_script(game)
 		get_tree().get_root().add_child(map_scene)
 		character = map_scene.get_node("AlienChar")
 		map_scene.get_node("ClientType").text = "Client"
-		#game.set_process_unhandled_input(true)
-		#print("Handling Unprocessed? " + str(game.is_processing_unhandled_input()))
 
 remote func character_update(position) -> void:
 	print("Got character data")
 	character.position = position
+
+remote func SyncMovedUnits(data) -> void:
+	for d in data:
+		UnitMoverManager.getUnit(d.uid).set_target(d.pos)
+
+remote func SyncAllUnitPositions(data) -> void:
+	for d in data:
+		var unit = UnitMoverManager.registerUnit(d.oid, d.pos, d.uid)
+		map_scene.add_child(unit)
 
 func _physics_process(_dt: float) -> void:
 	return
@@ -67,6 +75,8 @@ func _handle_left_click(event) -> void:
 	var space_state = get_world_2d().direct_space_state
 	var collision_objects = space_state.intersect_point(target, 1)
 	if(collision_objects):
+		if selectedCharacter:
+			selectedCharacter.deselect()
 		selectedCharacter = collision_objects[0].collider
 		selectedCharacter.become_selected()
 	else:
@@ -78,6 +88,6 @@ func _handle_left_click(event) -> void:
 func _handle_right_click(event) -> void:
 	if selectedCharacter:
 		print("Got a mouse click, sending to server")
-		rpc_id(1, "moveCharacter", target)
+		rpc_id(1, "moveCharacter", target, selectedCharacter.uid)
 	else:
 		print("Nothing selected, moving nothing...")

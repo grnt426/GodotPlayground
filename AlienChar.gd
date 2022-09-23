@@ -1,10 +1,21 @@
 extends KinematicBody2D
 
+class_name UnitMover
+
 onready var nav_agent := $NavigationAgent2D
 onready var ring := self.get_node("SelectionRing")
 
 var speed := 400
 var did_arrive = true
+var uid = -1
+var ownerId = -1
+
+func init(oId, pos, u=null):
+	ownerId = oId
+	self.position = pos
+	if u == null:
+		u = self.get_instance_id()
+	uid = u
 
 func _ready() -> void:
 	set_process(false)
