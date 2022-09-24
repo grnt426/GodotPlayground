@@ -1,6 +1,6 @@
 extends Node2D
 
-const map := preload("res://Common/Maps/SimpleTiles.tscn")
+const gameview := preload("res://Client/GameView.tscn")
 onready var camera = $Camera2D
 const server_ip := "127.0.0.1"
 const port := 1909
@@ -36,14 +36,9 @@ func _OnConnectionSucceeded():
 	connected = true
 	if(!map_scene):
 		print("Building map")
-		map_scene = map.instance()
+		map_scene = gameview.instance()
 		get_tree().get_root().add_child(map_scene)
-		character = map_scene.get_node("AlienChar")
-		map_scene.get_node("ClientType").text = "Client"
-
-remote func character_update(position) -> void:
-	print("Got character data")
-	character.position = position
+		map_scene.get_node("WorldMap/ClientType").text = "Client"
 
 remote func SyncMovedUnits(data) -> void:
 	for d in data:
