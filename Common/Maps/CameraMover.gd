@@ -1,9 +1,10 @@
 extends KinematicBody2D
 
 const MOTION_SPEED = 600 # Pixels/second.
+onready var camera : Camera = get_viewport().get_camera()
 
 func _physics_process(_delta):
-	var motion = Vector2()
+	var motion := Vector2()
 	motion.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	motion.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	motion.y /= 2
