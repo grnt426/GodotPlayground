@@ -1,6 +1,7 @@
 extends Node2D
 
 const map := preload("res://Common/Maps/SimpleTiles.tscn")
+onready var camera = $Camera2D
 const server_ip := "127.0.0.1"
 const port := 1909
 
@@ -12,6 +13,8 @@ var connected := false
 var character
 var target
 var selectedCharacter
+
+var counter = 0
 
 func _ready():
 	ConnectToServer()
@@ -54,19 +57,13 @@ remote func SyncAllUnitPositions(data) -> void:
 func _physics_process(_dt: float) -> void:
 	return
 
-func _unhandled_input(event: InputEvent) -> void:
-	if not event is InputEventMouseButton:
-		return
-		
-	if not event.pressed:
-		return
-		
-	target = event.global_position
-	
-	if event.button_index == BUTTON_LEFT:
-		_handle_left_click(event)
-	elif event.button_index == BUTTON_RIGHT:
-		_handle_right_click(event)
+func _unhandled_input(event: InputEvent) -> void:	
+	if event is InputEventMouseButton and event.pressed:
+		target = event.global_position
+		if event.button_index == BUTTON_LEFT:
+			_handle_left_click(event)
+		elif event.button_index == BUTTON_RIGHT:
+			_handle_right_click(event)
 	#line_2d.points = character.nav_agent.get_nav_path()
 
 func _handle_left_click(event) -> void:
