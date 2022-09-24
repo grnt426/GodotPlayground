@@ -1,7 +1,6 @@
 extends Node2D
 
 const gameview := preload("res://Client/GameView.tscn")
-onready var camera = $Camera2D
 const server_ip := "127.0.0.1"
 const port := 1909
 
@@ -13,8 +12,6 @@ var connected := false
 var character
 var target
 var selectedCharacter
-
-var counter = 0
 
 func _ready():
 	ConnectToServer()
@@ -49,9 +46,6 @@ remote func SyncAllUnitPositions(data) -> void:
 		var unit = UnitMoverManager.registerUnit(d.oid, d.pos, d.uid)
 		map_scene.add_child(unit)
 
-func _physics_process(_dt: float) -> void:
-	return
-
 func _unhandled_input(event: InputEvent) -> void:	
 	if event is InputEventMouseButton and event.pressed:
 		target = event.global_position
@@ -59,7 +53,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			_handle_left_click(event)
 		elif event.button_index == BUTTON_RIGHT:
 			_handle_right_click(event)
-	#line_2d.points = character.nav_agent.get_nav_path()
 
 func _handle_left_click(event) -> void:
 	print("Trying to select!")

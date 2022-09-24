@@ -6,7 +6,6 @@ var zoom_duration := 0.2
 var _zoom_step = 0.5
 var _zoom_level := 1.0 setget _set_zoom_level
 
-# We store a reference to the scene's tween node.
 onready var tween: Tween = $Tween
 
 func _unhandled_input(event):
