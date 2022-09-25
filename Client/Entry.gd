@@ -5,6 +5,7 @@ const server_ip := "127.0.0.1"
 const port := 1909
 
 onready var UnitMoverManager = get_node("/root/UnitMoverManager")
+onready var camera = get_node("/root/Client/GameView/CameraMover/WorldCamera")
 
 var network := NetworkedMultiplayerENet.new()
 var map_scene
@@ -49,6 +50,8 @@ remote func SyncAllUnitPositions(data) -> void:
 func _unhandled_input(event: InputEvent) -> void:	
 	if event is InputEventMouseButton and event.pressed:
 		target = event.global_position
+		
+		var target = get_canvas_transform().affine_inverse() * target
 		if event.button_index == BUTTON_LEFT:
 			_handle_left_click(event)
 		elif event.button_index == BUTTON_RIGHT:
