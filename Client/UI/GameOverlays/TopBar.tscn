@@ -2,9 +2,7 @@
 
 [ext_resource path="res://Client/UI/GameOverlays/TopResources.tscn" type="PackedScene" id=1]
 
-[node name="TopResourceBar" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="TopResourceBar" type="CanvasLayer"]
 
 [node name="Panel" type="Panel" parent="."]
 margin_right = 1280.0

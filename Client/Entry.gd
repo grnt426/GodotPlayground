@@ -5,7 +5,6 @@ const server_ip := "127.0.0.1"
 const port := 1909
 
 onready var UnitMoverManager = get_node("/root/UnitMoverManager")
-onready var camera = get_node("/root/Client/GameView/CameraMover/WorldCamera")
 
 var network := NetworkedMultiplayerENet.new()
 var map_scene
