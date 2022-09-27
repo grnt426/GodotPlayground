@@ -7,6 +7,8 @@ Primary Scene is `Entry.tscn`. This Scene will run as a client or server instanc
 ## Windows
 1) Add the root Godot application directory to your system PATH environment variable.
 2) Rename the godot_whatever.cmd file to just godot.cmd
+3) Download a PostgreSQL image: https://hub.docker.com/_/postgres
+4) Run the PostgreSQL image
 
 # Running the Server
 ## Windows

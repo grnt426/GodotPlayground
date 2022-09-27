@@ -6,10 +6,13 @@ var port := 1909
 var max_players := 100
 var connected_players := []
 var map_scene
+onready var database = Database.new()
 
 const map := preload("res://Common/Maps/SimpleTiles.tscn")
 
 func _ready():
+	print("Database thing %s" % database)
+	print("Database running? %s" % database.isConnected())
 	StartServer()
 	
 func StartServer():
