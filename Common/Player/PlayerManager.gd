@@ -2,6 +2,7 @@ extends Node
 
 const players := {}
 const playersByConn := {}
+var selfData :Player = null
 
 func _ready():
 	pass
@@ -33,3 +34,16 @@ func serializeAll():
 		print(p.username)
 		res.append({"id":p.id, "user":p.username})
 	return res
+
+remote func SetAllPlayerData(data) -> void:
+	for d in data:
+		var player = AddPlayerData(d)
+		if d.isSelf:
+			selfData = player
+
+remotesync func AddPlayerData(data) -> void:
+	var player:Player = registerPlayer(data.username, data.id)
+	players[data.id] = player
+
+func getSelfData() -> Player:
+	return selfData
