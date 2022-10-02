@@ -22,7 +22,7 @@ func StartServer():
 	map_scene = map.instance()
 	get_tree().get_root().add_child(map_scene)
 	map_scene.get_node("ClientType").text = "Server"
-	
+
 	# Spawn some units
 	var pos = Vector2(300, 300)
 	map_scene.add_child(UnitMoverManager.createUnit(2, pos))
