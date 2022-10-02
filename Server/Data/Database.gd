@@ -37,5 +37,5 @@ func _exit_tree() -> void:
 func isConnected() -> bool:
 	return connected
 
-func _process(delta):
+func _process(_delta):
 	db.poll()
