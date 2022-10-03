@@ -49,14 +49,13 @@ remote func SyncAllUnitPositions(data) -> void:
 func _unhandled_input(event: InputEvent) -> void:	
 	if event is InputEventMouseButton and event.pressed:
 		target = event.global_position
-		
-		var target = get_canvas_transform().affine_inverse() * target
+		target = get_canvas_transform().affine_inverse() * target
 		if event.button_index == BUTTON_LEFT:
-			_handle_left_click(event)
+			_handle_left_click(target)
 		elif event.button_index == BUTTON_RIGHT:
-			_handle_right_click(event)
+			_handle_right_click(target)
 
-func _handle_left_click(event) -> void:
+func _handle_left_click(target) -> void:
 	print("Trying to select!")
 
 	var space_state = get_world_2d().direct_space_state
@@ -72,7 +71,7 @@ func _handle_left_click(event) -> void:
 			selectedCharacter = false
 		print("Clicked on nothing!")
 
-func _handle_right_click(event) -> void:
+func _handle_right_click(target) -> void:
 	if selectedCharacter:
 		print("Got a mouse click, sending to server")
 		rpc_id(1, "moveCharacter", target, selectedCharacter.uid)
