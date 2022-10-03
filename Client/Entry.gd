@@ -55,7 +55,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.button_index == BUTTON_RIGHT:
 			_handle_right_click(target)
 
-func _handle_left_click(target) -> void:
+func _handle_left_click(target: Vector2) -> void:
 	print("Trying to select!")
 
 	var space_state = get_world_2d().direct_space_state
@@ -71,7 +71,7 @@ func _handle_left_click(target) -> void:
 			selectedCharacter = false
 		print("Clicked on nothing!")
 
-func _handle_right_click(target) -> void:
+func _handle_right_click(target: Vector2) -> void:
 	if selectedCharacter:
 		print("Got a mouse click, sending to server")
 		rpc_id(1, "moveCharacter", target, selectedCharacter.uid)
