@@ -10,7 +10,6 @@ margin_bottom = 22.0
 columns = 2
 
 [node name="Control" type="Control" parent="."]
-anchor_bottom = 1.0
 margin_right = 24.0
 margin_bottom = 14.0
 rect_min_size = Vector2( 24, 0 )

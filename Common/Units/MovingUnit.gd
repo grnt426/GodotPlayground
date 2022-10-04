@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-class_name UnitMover
+class_name MovingUnit
 
 onready var nav_agent := $NavigationAgent2D
 onready var ring := self.get_node("SelectionRing")

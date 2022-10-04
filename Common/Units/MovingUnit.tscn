@@ -1,22 +1,22 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://SimpleAssets/alienPink.png" type="Texture" id=1]
-[ext_resource path="res://AlienChar.gd" type="Script" id=2]
+[ext_resource path="res://Common/Units/MovingUnit.gd" type="Script" id=1]
+[ext_resource path="res://SimpleAssets/alienPink.png" type="Texture" id=2]
 [ext_resource path="res://SelectionRing.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 20.0
 height = 22.0
 
-[node name="AlienChar" type="KinematicBody2D"]
+[node name="MovingUnit" type="KinematicBody2D"]
 scale = Vector2( 0.3, 0.3 )
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -3 )

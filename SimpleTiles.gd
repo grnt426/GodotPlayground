@@ -1,7 +1,7 @@
 extends Node2D
 
 onready var line_2d : Line2D = $ComputedPath
-onready var character := $AlienChar
+onready var character := $Common/Units/MovingUnit
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton:

@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
 }, {
+"base": "KinematicBody2D",
+"class": "MovingUnit",
+"language": "GDScript",
+"path": "res://Common/Units/MovingUnit.gd"
+}, {
 "base": "Node",
 "class": "Player",
 "language": "GDScript",
@@ -28,18 +33,13 @@ _global_script_classes=[ {
 "class": "PostgreSQLClient",
 "language": "GDScript",
 "path": "res://Server/Data/PostgreSQLClient.gd"
-}, {
-"base": "KinematicBody2D",
-"class": "UnitMover",
-"language": "GDScript",
-"path": "res://AlienChar.gd"
 } ]
 _global_script_class_icons={
 "Database": "",
 "GitAPI": "",
+"MovingUnit": "",
 "Player": "",
-"PostgreSQLClient": "",
-"UnitMover": ""
+"PostgreSQLClient": ""
 }
 
 [application]

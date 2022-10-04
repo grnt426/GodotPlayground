@@ -1,6 +1,6 @@
 extends Node2D
 
-const UnitEntity := preload("res://AlienChar.tscn")
+const UnitEntity := preload("res://Common/Units/MovingUnit.tscn")
 
 const units := {}
 
@@ -8,17 +8,17 @@ func _ready():
 	pass
 
 # For the Server to create new units to give to clients to track
-func createUnit(ownerId, position) -> UnitMover:
+func createUnit(ownerId, position) -> MovingUnit:
 	return registerUnit(ownerId, position, null)
 
 # For use when a client receives a new unit from the Server
-func registerUnit(ownerId, position, uid) -> UnitMover:
+func registerUnit(ownerId, position, uid) -> MovingUnit:
 	var unit = UnitEntity.instance()
 	unit.init(ownerId, position, uid)
 	units[unit.uid] = unit
 	return unit
 
-func getUnit(uid: int) -> UnitMover:
+func getUnit(uid: int) -> MovingUnit:
 	return units[uid]
 
 func serializeAll():
