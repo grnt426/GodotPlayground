@@ -4,14 +4,9 @@ const gameview := preload("res://Client/GameView.tscn")
 const server_ip := "127.0.0.1"
 const port := 1909
 
-onready var UnitMoverManager = get_node("/root/UnitMoverManager")
-
 var network := NetworkedMultiplayerENet.new()
 var map_scene
 var connected := false
-var character
-var target
-var selectedCharacter
 
 func _ready():
 	ConnectToServer()
@@ -36,6 +31,10 @@ func _OnConnectionSucceeded():
 		map_scene = gameview.instance()
 		get_tree().get_root().add_child(map_scene)
 		map_scene.get_node("WorldMap/ClientType").text = "Client"
+		print("Children:")
+		for c in get_tree().get_root().get_children():
+			print("Child: %s" % c)
+		print("Tree: %s"  % get_tree())
 
 remote func SyncMovedUnits(data) -> void:
 	for d in data:
@@ -45,35 +44,3 @@ remote func SyncAllUnitPositions(data) -> void:
 	for d in data:
 		var unit = UnitMoverManager.registerUnit(d.oid, d.pos, d.uid)
 		map_scene.add_child(unit)
-
-func _unhandled_input(event: InputEvent) -> void:	
-	if event is InputEventMouseButton and event.pressed:
-		target = event.global_position
-		target = get_canvas_transform().affine_inverse() * target
-		if event.button_index == BUTTON_LEFT:
-			_handle_left_click(target)
-		elif event.button_index == BUTTON_RIGHT:
-			_handle_right_click(target)
-
-func _handle_left_click(target: Vector2) -> void:
-	print("Trying to select!")
-
-	var space_state = get_world_2d().direct_space_state
-	var collision_objects = space_state.intersect_point(target, 1)
-	if(collision_objects):
-		if selectedCharacter:
-			selectedCharacter.deselect()
-		selectedCharacter = collision_objects[0].collider
-		selectedCharacter.become_selected()
-	else:
-		if(selectedCharacter):
-			selectedCharacter.deselect()
-			selectedCharacter = false
-		print("Clicked on nothing!")
-
-func _handle_right_click(target: Vector2) -> void:
-	if selectedCharacter:
-		print("Got a mouse click, sending to server")
-		rpc_id(1, "moveCharacter", target, selectedCharacter.uid)
-	else:
-		print("Nothing selected, moving nothing...")
