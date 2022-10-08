@@ -7,6 +7,11 @@ var character
 var target
 var selectedCharacter
 
+var networkNode = null
+
+func init(networkNode) -> void:
+	self.networkNode = networkNode
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		target = event.global_position
@@ -37,6 +42,6 @@ func _handle_left_click(target: Vector2) -> void:
 func _handle_right_click(target: Vector2) -> void:
 	if selectedCharacter:
 		print("Got a mouse click, sending to server")
-		rpc_id(1, "moveCharacter", target, selectedCharacter.uid)
+		networkNode.moveCharacter(target, selectedCharacter.uid)
 	else:
 		print("Nothing selected, moving nothing...")

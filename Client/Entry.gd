@@ -29,12 +29,9 @@ func _OnConnectionSucceeded():
 	if(!map_scene):
 		print("Building map")
 		map_scene = gameview.instance()
+		map_scene.init(self)
 		get_tree().get_root().add_child(map_scene)
 		map_scene.get_node("WorldMap/ClientType").text = "Client"
-		print("Children:")
-		for c in get_tree().get_root().get_children():
-			print("Child: %s" % c)
-		print("Tree: %s"  % get_tree())
 
 remote func SyncMovedUnits(data) -> void:
 	for d in data:
@@ -44,3 +41,6 @@ remote func SyncAllUnitPositions(data) -> void:
 	for d in data:
 		var unit = UnitMoverManager.registerUnit(d.oid, d.pos, d.uid)
 		map_scene.add_child(unit)
+
+func moveCharacter(target, uid) -> void:
+	rpc_id(1, "moveCharacter", target, uid)
