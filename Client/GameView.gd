@@ -16,7 +16,7 @@ func init(networkNode) -> void:
 
 func _ready():
 	print("UnitContext Children: %s " % unitContextualPopup)
-	actionButtonGroup = unitContextualPopup.get_node("Move").group
+	actionButtonGroup = unitContextualPopup.get_node("GridContainer/Move").group
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:

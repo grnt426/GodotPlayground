@@ -40,5 +40,3 @@ script = ExtResource( 5 )
 
 [node name="UnitContextualPopup" parent="." instance=ExtResource( 7 )]
 visible = false
-anchor_left = -0.613
-margin_top = 430.0
