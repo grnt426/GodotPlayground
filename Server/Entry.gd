@@ -56,7 +56,15 @@ func _Peer_Connected(player_id: int):
 func _Peer_Disconnected(player_id):
 	print("User " + str(player_id) + " disconnected")
 
-remote func moveCharacter(position: Vector2, uid: int) -> void:
-	print("Received a mouse click command, moving unit")
+remote func moveCharacter(position: Vector2, uid: int, action: String) -> void:
+	action = action.to_lower()
+	print("Received an action command: %s" % action)
 	var unit = UnitMoverManager.getUnit(uid)
-	unit.set_target(position)
+	
+	if action == "move":
+		print("Received move command")
+		unit.set_target(position)
+	elif action == "patrol":
+		print("Received patrol command")
+	else:
+		print("Invalid action, doing nothing")

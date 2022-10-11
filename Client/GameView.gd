@@ -1,7 +1,7 @@
 extends Node2D
 
 onready var UnitMoverManager := get_node("/root/UnitMoverManager")
-onready var unitContextualPopup := $UnitContextualPopup
+onready var unitContextualPopup := get_node("UnitContextualPopup")
 
 var character
 var target
@@ -9,8 +9,14 @@ var selectedCharacter
 
 var networkNode = null
 
+var actionButtonGroup = null
+
 func init(networkNode) -> void:
 	self.networkNode = networkNode
+
+func _ready():
+	print("UnitContext Children: %s " % unitContextualPopup)
+	actionButtonGroup = unitContextualPopup.get_node("Move").group
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -42,6 +48,12 @@ func _handle_left_click(target: Vector2) -> void:
 func _handle_right_click(target: Vector2) -> void:
 	if selectedCharacter:
 		print("Got a mouse click, sending to server")
-		networkNode.moveCharacter(target, selectedCharacter.uid)
+		var action = _get_selected_action()
+		networkNode.moveCharacter(target, selectedCharacter.uid, action)
 	else:
 		print("Nothing selected, moving nothing...")
+
+func _get_selected_action() -> String:
+	var button :String = actionButtonGroup.get_pressed_button().text
+	print("%s is the selected button" % button)
+	return button

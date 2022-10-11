@@ -9,4 +9,5 @@ margin_right = -1204.0
 margin_bottom = -650.0
 toggle_mode = true
 pressed = true
+text = "Move"
 icon = ExtResource( 1 )

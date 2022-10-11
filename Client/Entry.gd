@@ -42,5 +42,5 @@ remote func SyncAllUnitPositions(data) -> void:
 		var unit = UnitMoverManager.registerUnit(d.oid, d.pos, d.uid)
 		map_scene.add_child(unit)
 
-func moveCharacter(target, uid) -> void:
-	rpc_id(1, "moveCharacter", target, uid)
+func moveCharacter(target, uid, action) -> void:
+	rpc_id(1, "moveCharacter", target, uid, action)

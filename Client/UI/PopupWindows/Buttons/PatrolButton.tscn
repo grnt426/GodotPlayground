@@ -8,5 +8,5 @@ anchor_bottom = 1.0
 margin_right = -1204.0
 margin_bottom = -650.0
 toggle_mode = true
-text = "patrol"
+text = "Patrol"
 icon = ExtResource( 1 )
