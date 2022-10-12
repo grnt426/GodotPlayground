@@ -10,6 +10,11 @@ var did_arrive = true
 var uid = -1
 var ownerId = -1
 
+var patrolStart:Vector2
+var patrolEnd:Vector2
+var patrolCurrent:Vector2
+var patrolling := false
+
 func init(oId, pos, u=null):
 	ownerId = oId
 	self.position = pos
@@ -28,6 +33,9 @@ func _process(delta:float) -> void:
 	
 	if not _arrived_at_location():
 		velocity = move_and_slide(velocity)
+	elif patrolling:
+		patrolCurrent = (patrolStart if patrolCurrent == patrolEnd else patrolEnd)
+		nav_agent.set_target_location(patrolCurrent)
 	elif not did_arrive:
 		did_arrive = true
 
@@ -42,7 +50,18 @@ func deselect() -> void:
 func _arrived_at_location() -> bool:
 	return nav_agent.is_navigation_finished()
 
-func set_target(value) -> void:
+func set_target(target) -> void:
 	did_arrive = false
-	nav_agent.set_target_location(value)
+	patrolling = false
+	nav_agent.set_target_location(target)
+	set_process(true)
+
+func set_patrol(target) -> void:
+	patrolStart = position
+	patrolEnd = target
+	patrolCurrent = target
+	patrolling = true
+	
+	did_arrive = false
+	nav_agent.set_target_location(target)
 	set_process(true)

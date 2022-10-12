@@ -66,5 +66,6 @@ remote func moveCharacter(position: Vector2, uid: int, action: String) -> void:
 		unit.set_target(position)
 	elif action == "patrol":
 		print("Received patrol command")
+		unit.set_patrol(position)
 	else:
 		print("Invalid action, doing nothing")
