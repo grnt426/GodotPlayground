@@ -2,16 +2,16 @@
 # the hexes in a clean way. Maybe this can be fixed.
 
 extends Label
-onready var tilemap = $"../WorldMap/TileMap"
+onready var tilemap:TileMap = $"../WorldMap/WorldTiles"
 
 func _ready():
 	self.text = ""
 
 func _process(delta):
-	var globalMouseLoc: Vector2 = get_global_mouse_position()
-	var mouseLoc = get_canvas_transform().affine_inverse() * globalMouseLoc
-	var coords = tilemap.world_to_map(mouseLoc)
+
+	var mousePos = get_global_mouse_position()
+	var coords = tilemap.world_to_map(mousePos)
 	self.text = "%s" % coords
-	globalMouseLoc.x += 15
-	globalMouseLoc.y += 5
-	self.rect_position = globalMouseLoc
+	mousePos.x += 15
+	mousePos.y += 5
+	self.rect_position = mousePos

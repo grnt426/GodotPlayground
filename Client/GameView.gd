@@ -2,6 +2,8 @@ extends Node2D
 
 onready var UnitMoverManager := get_node("/root/UnitMoverManager")
 onready var unitContextualPopup := get_node("UnitContextualPopup")
+onready var worldMap := get_node("WorldMap")
+onready var tileSelection := get_node("TileSelector")
 
 var character
 var target
@@ -29,6 +31,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _handle_left_click(target: Vector2) -> void:
 	print("Trying to select!")
+	tileSelection.visible = false
+	tileSelection.playing = false
 
 	var space_state = get_world_2d().direct_space_state
 	var collision_objects = space_state.intersect_point(target, 1)
@@ -47,6 +51,17 @@ func _handle_left_click(target: Vector2) -> void:
 
 func _handle_right_click(target: Vector2) -> void:
 	if selectedCharacter:
+		
+		# Show selected tile
+		var mousePos = get_global_mouse_position()
+		var tilemap = worldMap.get_node("WorldTiles")
+		var tileCoords = tilemap.world_to_map(mousePos)
+		var tilePosition = tilemap.map_to_world(tileCoords)
+		tileSelection.position = tilePosition
+		tileSelection.visible = true
+		tileSelection.playing = true
+		
+		
 		print("Got a mouse click, sending to server")
 		var action = _get_selected_action()
 		networkNode.moveCharacter(target, selectedCharacter.uid, action)

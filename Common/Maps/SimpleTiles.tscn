@@ -4,7 +4,7 @@
 
 [node name="WorldMap" type="Node2D"]
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="WorldTiles" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 64, 49 )
 cell_half_offset = 0

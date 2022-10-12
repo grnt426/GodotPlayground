@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Common/Maps/SimpleTiles.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Client/CameraMover.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Client/UI/GameOverlays/BottomBar.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Client/UI/PopupWindows/UnitContextualPopup.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Client/GameView.gd" type="Script" id=8]
+[ext_resource path="res://my assets/Animations/TileSelection.tscn" type="PackedScene" id=9]
 
 [node name="GameView" type="Node2D"]
 script = ExtResource( 8 )
@@ -40,3 +41,9 @@ script = ExtResource( 5 )
 
 [node name="UnitContextualPopup" parent="." instance=ExtResource( 7 )]
 visible = false
+
+[node name="TileSelector" parent="." instance=ExtResource( 9 )]
+visible = false
+frame = 2
+playing = false
+centered = false
