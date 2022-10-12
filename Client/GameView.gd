@@ -60,11 +60,10 @@ func _handle_right_click(target: Vector2) -> void:
 		tileSelection.position = tilePosition
 		tileSelection.visible = true
 		tileSelection.playing = true
-		
-		
+		tilePosition += Vector2(32, 34)
 		print("Got a mouse click, sending to server")
 		var action = _get_selected_action()
-		networkNode.moveCharacter(target, selectedCharacter.uid, action)
+		networkNode.moveCharacter(tilePosition, selectedCharacter.uid, action)
 	else:
 		print("Nothing selected, moving nothing...")
 
